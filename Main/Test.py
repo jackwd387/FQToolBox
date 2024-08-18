@@ -3,41 +3,35 @@ import json
 import time
 cookie = open('./Cookie.ini','r',encoding='utf-8').read()
 def book_id_inquire(book_id):
-    url = 'https://fanqienovel.com/api/reader/directory/detail?bookId='
-    url1 = 'https://fanqienovel.com/api/reader/full?itemId='
+    url = 'https://novel.snssdk.com/api/novel/book/directory/list/v/?book_id='
+    url1 = 'https://fanqienovel.com/api/reader/directory/detail?bookId='
     # 数据获取
     json_data = json.loads(requests.get(url=url+book_id).text)
     # item_id获取
-    item_id_list = json_data['data']['allItemIds']
-    # 书名获取
-    json_data2 = json.loads(requests.get(url=url1+item_id_list[0]).text)
-    name = json_data2['data']['chapterData']['bookName']
-    print('书名:'+name)
+    item_id_list = json_data['data']['item_list']
     # title获取
+    json_data2 = json.loads(requests.get(url=url1+book_id).text)
     title_list = []
-    for i in json_data['data']['chapterListWithVolume']:
+    for i in json_data2['data']['chapterListWithVolume']:
         for v in i:
             title_list.append(v['title'])
     for i in range(len(item_id_list)):
         print('title:'+title_list[i])
         print('item_id:'+item_id_list[i])
+    print('书名:'+json_data['data']['book_info']['book_name'])
+    print('作者:'+json_data['data']['book_info']['author'])
+    print('描述:'+json_data['data']['book_info']['abstract'])
+    print('类型:'+json_data['data']['book_info']['category'])
 def item_id_inquire(item_id):
-    url1 = 'https://fanqienovel.com/api/reader/full?itemId='
+    url1 = 'https://novel.snssdk.com/api/novel/reader/full/v1/?item_id=' #备用API
     json_data3 = json.loads(requests.get(url=url1+item_id).text)
-    item_id_corresponds_to_author = json_data3['data']['chapterData']['author']
-    item_id_corresponds_to_book_id = json_data3['data']['chapterData']['bookId']
-    item_id_corresponds_to_book_name = json_data3['data']['chapterData']['bookName']
-    item_id_corresponds_to_title = json_data3['data']['chapterData']['title']
-    item_id_corresponds_to_firstPassTime = json_data3['data']['chapterData']['firstPassTime']
-    item_id_corresponds_to_next_item_id = json_data3['data']['chapterData']['nextItemId']
-    item_id_corresponds_to_pre_item_id = json_data3['data']['chapterData']['preItemId']
-    print('item_id对应作者:'+item_id_corresponds_to_author)
-    print('item_id对应book_id:'+item_id_corresponds_to_book_id)
-    print('item_id对应书名:'+item_id_corresponds_to_book_name)
-    print('item_id对应章节名:'+item_id_corresponds_to_title)
-    print('item_id对应发布时间:'+item_id_corresponds_to_firstPassTime)
-    print('item_id对应下一章item_id:'+item_id_corresponds_to_next_item_id)
-    print('item_id对应上一章item_id:'+item_id_corresponds_to_pre_item_id)
+    print('item_id对应内容:'+json_data3['data']['content'].replace('</p>','\n').replace('<p>','\n'))
+    print('item_id对应作者:'+json_data3['data']['novel_data']['author'])
+    print('item_id对应book_id:'+json_data3['data']['novel_data']['book_id'])
+    print('item_id对应书名:'+json_data3['data']['novel_data']['book_name'])
+    print('item_id对应章节名:'+json_data3['data']['novel_data']['title'])
+    print('item_id对应下一章item_id:'+json_data3['data']['novel_data']['next_item_id'])
+    print('item_id对应上一章item_id:'+json_data3['data']['novel_data']['pre_item_id'])
 def user_inquire(cookie):
     url2 = 'https://fanqienovel.com/api/user/info/v2'
     url3 = 'https://fanqienovel.com/api/reader/book/progress'

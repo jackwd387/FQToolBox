@@ -1,6 +1,5 @@
 # 导入数据请求模块
 import requests
-# 导入数据解析模块
 import _thread
 import os
 import time
@@ -27,12 +26,11 @@ def get_item_id(book_id):
     print('书名:'+name)
 def get_content(title,item_id):
         # 完整的小说章节链接
-        link_url = 'http://127.0.0.1:6868/r?item_id=' + item_id
+        link_url = 'https://novel.snssdk.com/api/novel/reader/full/v1/?item_id=' + item_id
         # 发送请求+获取数据内容
-        link_data = requests.get(url=link_url, headers=headers).text
+        link_data = json.loads(requests.get(url=link_url).text)
         # 把<p>转 \n 换行符
-        new_html = re.sub(r'<p idx=".*?">', '', link_data)
-        data = re.sub(r'</p>', '\n', new_html)
+        data = link_data['data']['content'].replace('<p>','\n').replace('</p>','\n')
         # print(content)
         #print(link_url)
         title = re.sub(r"[\/\\\:\*\?\"\<\>\|]","_",title)#去掉非法字符
@@ -62,7 +60,8 @@ if c == '1':
     # for循环遍历, 提取列表里元素
     if input('是否全文爬取(这将会爬取书籍的所有章节，若否则将会爬取未被爬取的章节)y/n(默认n):') == 'y':
         for title,item_id in zip(title_list, item_id_list):
-            get_content(title,item_id)
+            _thread.start_new_thread(get_content,(title,item_id))
+            time.sleep(0.03)
         input('--------------------------------------------\n总章数:'+str(len(title_list))+"\n等待所有线程下载完毕后，按下回车键\n--------------------------------------------\n")
     print('开始效验并更新文件')
     for title,item_id in zip(title_list, item_id_list):

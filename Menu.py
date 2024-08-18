@@ -21,11 +21,7 @@ def user_inquire(cookie):
         print('用户名称:'+User_name)
         print('用户id:'+User_id)
         print('用户简介:'+User_desc)
-def start_server():
-    print('由于所使用Api不在开放,需要开启本地FQApi服务器\n---------------')
-    os.system('FQApi.exe')
 print('一言:'+json.loads(requests.get(url='https://v1.hitokoto.cn').text)['hitokoto'])
-_thread.start_new_thread(start_server,())
 time.sleep(0.5)
 print('---------------')
 if not os.path.exists('cookie.ini'):

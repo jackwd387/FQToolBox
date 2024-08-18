@@ -7,7 +7,6 @@ import asyncio
 import _thread
 import json
 import re
-print('更改api测试')
 cookie = open('cookie.ini','r').read()
 title_list = []
 item_id_list = []
@@ -30,12 +29,11 @@ def get_item_id(book_id):
     print('书名:'+name)
 def get_content(title,item_id):
         # 完整的小说章节链接
-        link_url = 'http://127.0.0.1:6868/r?item_id=' + item_id
+        link_url = 'https://novel.snssdk.com/api/novel/reader/full/v1/?item_id=' + item_id
         # 发送请求+获取数据内容
-        link_data = requests.get(url=link_url, headers=headers).text
+        link_data = json.loads(requests.get(url=link_url).text)
         # 把<p>转 \n 换行符
-        data = re.sub(r'<p idx=".*?">', '', link_data).replace('<p>','\n').replace('</p>','\n')
-        return data.replace('【','\n中括号\n').replace('】','\n中括号括回来\n')
+        return link_data['data']['content'].replace('<p>','\n').replace('</p>','\n').replace('【','\n中括号\n').replace('】','\n中括号括回来\n')
 def thread(p):
     global content,voice,rate_count,volume_count,executable
     print('正在爬取并生成音频')
