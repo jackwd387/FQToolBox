@@ -1,9 +1,8 @@
 import os
 import json
 import requests
-import _thread
 import time
-print('欢迎使用FQ Toolbox V1.7')
+print('欢迎使用FQ Toolbox V1.9')
 def user_inquire(cookie):
     url2 = 'https://fanqienovel.com/api/user/info/v2'
     headers = {
@@ -38,9 +37,11 @@ while True:
     elif choose == '3':
         os.system('python ./Main/FQ爬虫.py')
     elif choose == '4':
-        choose = input('1.api测试\n请选择:')
+        choose = input('1.api测试\n2.番茄听书\n请选择:')
         if choose == '1':
             os.system('python ./Main/Test.py')
+        elif choose == '2':
+            os.system('python ./Main/Test2.py')
     else:
         print('unknown')
     
