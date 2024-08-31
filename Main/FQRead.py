@@ -6,7 +6,6 @@ import edge_tts
 import asyncio
 import _thread
 import json
-import re
 cookie = open('cookie.ini','r').read()
 title_list = []
 item_id_list = []
@@ -33,7 +32,7 @@ def get_content(title,item_id):
         # 发送请求+获取数据内容
         link_data = json.loads(requests.get(url=link_url).text)
         # 把<p>转 \n 换行符
-        return link_data['data']['content'].replace('<p>','\n').replace('</p>','\n').replace('【','\n中括号\n').replace('】','\n中括号括回来\n')
+        return link_data['data']['content'].replace('</p><p>','\n').replace('<p>','\n').replace('</p>','\n') #.replace('【','\n中括号\n').replace('】','\n中括号括回来\n')
 def thread(p):
     global content,voice,rate_count,volume_count,executable
     print('正在爬取并生成音频')

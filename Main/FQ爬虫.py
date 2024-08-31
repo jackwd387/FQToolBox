@@ -61,7 +61,7 @@ if c == '1':
     if input('是否全文爬取(这将会爬取书籍的所有章节，若否则将会爬取未被爬取的章节)y/n(默认n):') == 'y':
         for title,item_id in zip(title_list, item_id_list):
             _thread.start_new_thread(get_content,(title,item_id))
-            time.sleep(0.03)
+            time.sleep(0.05)
         input('--------------------------------------------\n总章数:'+str(len(title_list))+"\n等待所有线程下载完毕后，按下回车键\n--------------------------------------------\n")
     print('开始效验并更新文件')
     for title,item_id in zip(title_list, item_id_list):
