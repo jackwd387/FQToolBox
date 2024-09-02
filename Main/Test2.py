@@ -5,5 +5,5 @@ def reading(tone_id,item_ids):
   print("主:"+data["main_url"])
   print("备用:"+data["backup_url"])
   return data["main_url"]
-os.system('mpv '+reading(input('音色:'),input('item_id:')))
+reading(input('音色:'),input('item_id:'))
 input('Enter键退出')

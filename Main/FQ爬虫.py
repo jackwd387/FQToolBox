@@ -34,7 +34,7 @@ def get_content(title,item_id):
         # print(content)
         #print(link_url)
         title = re.sub(r"[\/\\\:\*\?\"\<\>\|]","_",title)#去掉非法字符
-        with open('./'+ name +'/'+ title + '.txt', mode='w', encoding='utf-8') as f:
+        with open('./output/'+ name +'/'+ title + '.txt', mode='w', encoding='utf-8') as f:
             f.write(title)
             f.write('\n\n')
             f.write(data)
@@ -53,7 +53,7 @@ headers = {
 book_id = input('book_id:')
 get_item_id(book_id)
 if not os.path.exists(name):
-    os.makedirs(name)
+    os.makedirs('./output/'+name)
 c = input('1.爬取全文\n2.爬取单章\nNext:')
 if c == '1':
     #print(title_list)
@@ -61,11 +61,11 @@ if c == '1':
     if input('是否全文爬取(这将会爬取书籍的所有章节，若否则将会爬取未被爬取的章节)y/n(默认n):') == 'y':
         for title,item_id in zip(title_list, item_id_list):
             _thread.start_new_thread(get_content,(title,item_id))
-            time.sleep(0.05)
+            time.sleep(0.003)
         input('--------------------------------------------\n总章数:'+str(len(title_list))+"\n等待所有线程下载完毕后，按下回车键\n--------------------------------------------\n")
     print('开始效验并更新文件')
     for title,item_id in zip(title_list, item_id_list):
-        if os.path.exists('./'+ name +'/'+ title + '.txt'):
+        if os.path.exists('./output/'+ name +'/'+ title + '.txt'):
             print(f"{title}已创建")
         else:
             print(f'提示:{title}没有被创建')

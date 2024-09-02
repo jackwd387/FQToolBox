@@ -102,7 +102,7 @@ if __name__ == '__main__':
         p = int(input('选择:'))
         count = 0
         content = None
-        output_files = './' + book_id + '_ceche/'
+        output_files = './TEMP/' + book_id + '_ceche/'
         os.system('edge-tts --list-voices')
         voice = input('请选择音色(默认zh-CN-XiaoxiaoNeural):')
         rate_count = input('语速大小(默认+0%):')
