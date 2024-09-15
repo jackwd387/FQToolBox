@@ -9,6 +9,6 @@
 多线程一键爬取小说为txt文本
 ## 如何使用
 运行以下代码以安装所需运行库
-```bash
+```shell
 pip install requests edge-tts asyncio
 ```
