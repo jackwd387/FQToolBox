@@ -49,14 +49,17 @@ def user_inquire(cookie):
     'Cookie': cookie
     }
     json_data4 = json.loads(requests.get(url=url2,headers=headers).text)
-    User_avatar_url = json_data4['data']['avatar']
-    User_name = json_data4['data']['name']
-    User_id = json_data4['data']['id']
-    User_desc = json_data4['data']['desc']
-    print('用户头像url:'+User_avatar_url)
-    print('用户名称:'+User_name)
-    print('用户id:'+User_id)
-    print('用户简介:'+User_desc)
+    if json_data4['code'] == -1:
+        return 'false'
+    else:
+        User_avatar_url = json_data4['data']['avatar']
+        User_name = json_data4['data']['name']
+        User_id = json_data4['data']['id']
+        User_desc = json_data4['data']['desc']
+        print('用户头像url:'+User_avatar_url)
+        print('用户名称:'+User_name)
+        print('用户id:'+User_id)
+        print('用户简介:'+User_desc)
 def user_bookshelf(cookie):
     url3 = 'https://fanqienovel.com/api/reader/book/progress'
     url = 'https://api5-normal-sinfonlineb.fqnovel.com/reading/bookapi/multi-detail/v/?aid=1967&iid=1&version_code=999&book_id='
