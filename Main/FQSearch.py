@@ -10,9 +10,11 @@ while True:
         print('作者:'+i['book_data'][0]['author'])
         print('简介:'+i['book_data'][0]['abstract'])
         print('类型:'+i['book_data'][0]['category'])
+        print('分数:'+i['book_data'][0]['score'])
         print('Sub_info:'+i['book_data'][0]['sub_info'])
         print('------------------------')
-    if input('Next:') == 'n':
+    p = input('page(不输入退出):')
+    if p == '':
         break
     else:
-        page = int(input('page:'))
+        page = int(p)

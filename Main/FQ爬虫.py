@@ -8,11 +8,12 @@ import json
 name = ''
 title_list = []
 item_id_list = []
+url = 'https://novel.snssdk.com/api/novel/reader/full/v1/?item_id='
 def get_item_id(book_id):
     global name,title_list,item_id_list
-    url = 'https://fanqienovel.com/api/reader/directory/detail?bookId='+book_id
+    url1 = 'https://fanqienovel.com/api/reader/directory/detail?bookId='+book_id
     # 发送请求
-    json_data = json.loads(requests.get(url=url).text)
+    json_data = json.loads(requests.get(url=url1).text)
     """解析数据: 提取我们需要的数据内容"""
     # 提取章节名
     for i in json_data['data']['chapterListWithVolume']:
@@ -21,12 +22,12 @@ def get_item_id(book_id):
     # 提取章节ID
     item_id_list = json_data['data']['allItemIds']
     # 提取书名
-    json_data2 = json.loads(requests.get(url='https://fanqienovel.com/api/reader/full?itemId='+item_id_list[0]).text)
-    name = json_data2['data']['chapterData']['bookName']
+    json_data2 = json.loads(requests.get(url=url+item_id_list[0]).text)
+    name = json_data2['data']['novel_data']['book_name']
     print('书名:'+name)
 def get_content(title,item_id):
         # 完整的小说章节链接
-        link_url = 'https://novel.snssdk.com/api/novel/reader/full/v1/?item_id=' + item_id
+        link_url = url + item_id
         # 发送请求+获取数据内容
         link_data = json.loads(requests.get(url=link_url).text)
         # 把<p>转 \n 换行符
@@ -72,7 +73,8 @@ if c == '1':
             _thread.start_new_thread(get_content,(title,item_id))
     input('--------------------------------------------\n总章数:'+str(len(title_list))+"\n等待所有线程下载完毕后，按下回车键\n--------------------------------------------\n")
 elif c == '2':
-    print(title_list)
+    for r in range(len(title_list)):
+        print(f'章节 {r+1} :{title_list[r]}')
     c1 = int(input('选择:'))
     get_content(title_list[c1-1],item_id_list[c1-1])
 else:
