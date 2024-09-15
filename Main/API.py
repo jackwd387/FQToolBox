@@ -1,7 +1,6 @@
 import requests
 import json
 import time
-import Ui
 def book_id_inquire(book_id):
     # url = 'https://novel.snssdk.com/api/novel/book/directory/list/v/?book_id= 被和谐
     url = 'https://api5-normal-sinfonlineb.fqnovel.com/reading/bookapi/multi-detail/v/?aid=1967&iid=1&version_code=999&book_id='
@@ -37,7 +36,7 @@ def item_id_inquire(item_id):
     # url = 'https://novel.snssdk.com/api/novel/book/directory/detail/v/?item_ids='
     url1 = 'https://novel.snssdk.com/api/novel/reader/full/v1/?item_id=' #备用API
     json_data3 = json.loads(requests.get(url=url1+item_id).text)
-    Ui.view_text('item_id对应内容:'+json_data3['data']['content'].replace('</p><p>','\n').replace('</p>','\n').replace('<p>','\n'))
+    print('item_id对应内容:'+json_data3['data']['content'].replace('</p><p>','\n').replace('</p>','\n').replace('<p>','\n'))
     print('item_id对应作者:'+json_data3['data']['novel_data']['author'])
     print('item_id对应book_id:'+json_data3['data']['novel_data']['book_id'])
     print('item_id对应书名:'+json_data3['data']['novel_data']['book_name'])
