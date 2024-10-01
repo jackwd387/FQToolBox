@@ -6,7 +6,7 @@ termux-setup-storage
 echo "安装python"
 pkg install python -y
 echo "安装依赖"
-pip install requests edge-tts asyncio -y
+pip install requests edge-tts asyncio
 echo "从github获取FQToolBox，此处可能需要科学上网"
 curl -o FQToolBox.zip "https://codeload.github.com/jackwd387/FQToolBox/zip/refs/heads/main"
 unzip FQToolBox.zip
