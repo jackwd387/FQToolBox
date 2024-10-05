@@ -66,16 +66,15 @@ def user_bookshelf(cookie):
     headers = {
     'Cookie': cookie
     }
+    book_id_list = []
     json_data5 = json.loads(requests.get(url=url3,headers=headers).text)
     for i in json_data5['data']:
         print('用户书架书籍:'+i['book_id'])
+        book_id_list.append(i['book_id'])
         print('此用户在此书最后一次阅读的章节:'+i['item_id'])
         print('此用户在此书最后一次阅读的时间:'+i['read_timestamp'])
-        json_data = json.loads(requests.get(url=url+i['book_id']).text)
-        print('书名:'+json_data['data'][0]['book_name'])
-        print('作者:'+json_data['data'][0]['author'])
-        print('类型:'+json_data['data'][0]['tags'])
         print('---------------')
+    return book_id_list
 def update_progres(cookie,item_id):
     url = 'https://fanqienovel.com/api/reader/book/update_progress'
     url1 = 'https://novel.snssdk.com/api/novel/reader/full/v1/?item_id='

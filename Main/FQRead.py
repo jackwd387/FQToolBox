@@ -1,12 +1,11 @@
 # 导入数据请求模块
 import requests
 import os
-import time
 import edge_tts
 import asyncio
 import _thread
 import json
-from API import update_progres
+from API import update_progres,user_bookshelf
 cookie = open('cookie.ini','r').read()
 title_list = []
 item_id_list = []
@@ -59,7 +58,9 @@ headers = {
     }
 # url地址(小说主页)
 if __name__ == '__main__':
-    book_id = input('book_id:')
+    book_id = input('book_id(输入空则使用最近播放):')
+    if book_id == '':
+        book_id = user_bookshelf(cookie)[0]
     get_item_id(book_id)
     for r in range(len(title_list)):
         print(f'章节 {r+1} :{title_list[r]}')
@@ -84,9 +85,10 @@ if __name__ == '__main__':
     while True:
         if executable == 'True':
             if len(title_list) <= p-1+count:
-                os.system(f'edge-playback --text {'"'+json.loads(requests.get(url='https://v1.hitokoto.cn').text)['hitokoto']+' 章节播放完毕 感谢使用"'} --voice '+ voice)
+                os.system(f'edge-playback --text  "章节播放完毕 感谢使用" --voice '+ voice)
                 break
             else:
+                executable = 'False'
                 title = title_list[p-1+count]
                 item_id = item_id_list[p-1+count]
                 count += 1
@@ -95,4 +97,3 @@ if __name__ == '__main__':
                 _thread.start_new_thread(thread,(p+count,))
                 os.system('mpv '+'"'+output_files+item_id+'_TEMP.mp3'+'"')
                 os.remove(output_files+item_id+'_TEMP.mp3')
-                print(p)
