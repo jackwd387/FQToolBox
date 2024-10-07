@@ -40,11 +40,8 @@ if [ ! -d "~/storage/downloads/FQToolBox-main" ]; then
     echo "正在从 GitHub 下载 FQToolBox，此处可能需要科学上网，快了快了←_←"
     curl -o FQToolBox.zip "https://codeload.github.com/jackwd387/FQToolBox/zip/refs/heads/main" || { echo "下载失败，请尝试使用科学上网(〒﹏〒)"; exit 1; }
     echo "正在解压 FQToolBox..."
-    unzip -d ~/storage/downloads FQToolBox.zip || { echo "解压失败，请检查 zip 文件"; exit 1; }
-else
-    echo "FQToolBox 已存在，跳过咯(　･ω･)"
-fi
-# 进入解压目录并运行 FQToolBox
+    unzip -o -d ~/storage/downloads FQToolBox.zip || { echo "解压失败，请检查 zip 文件"; exit 1; }
+#进入解压目录并运行 FQToolBox
 cd ~/storage/downloads/FQToolBox-main || { echo "无法进入 FQToolBox 目录"; exit 1; }
-echo "all done，运行脚本(≧▽≦)
+echo "all done，运行脚本(≧▽≦)"
 python Menu.py
