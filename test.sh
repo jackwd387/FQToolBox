@@ -14,7 +14,8 @@ if [ -z "$PREFIX" ] || [ ! -d "$PREFIX" ]; then
         # 更新 Termux 包管理器
         echo "更新软件包ing<(￣︶￣)>"
         pkg update -y
-
+        #安装openssl(不安装的话总是会出一些奇奇怪怪的bug)
+        pkg install openssl -y
         # 安装 Python
         pkg install python -y
         # 配置 Python 的 pip 源
