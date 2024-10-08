@@ -10,10 +10,12 @@ if [ -z "$PREFIX" ] || [ ! -d "$PREFIX" ]; then
 
         # 修改 Termux 软件源为清大镜像
         echo "更换 Termux 软件源为清大镜像♪～(´ε｀ )"
-        sed -i 's@^\(deb.*stable main\)$@#\1\ndeb https://mirrors.tuna.tsinghua.edu.cn/termux/apt/termux-main stable main@' $PREFIX/etc/apt/sources.list
+        export SOURCE=https://mirrors.tuna.tsinghua.edu.cn/termux/apt/termux-main
+        sed -i 's@^\(deb.*stable main\)$@#\1\ndeb '$SOURCE' stable main@' $PREFIX/etc/apt/sources.list
+        unset SOURCE
         # 更新 Termux 包管理器
         echo "更新软件包ing<(￣︶￣)>"
-        pkg update -y
+        apt update && apt upgrade -y
         #安装openssl(不安装的话总是会出一些奇奇怪怪的bug)
         pkg install openssl -y
         # 安装 Python
