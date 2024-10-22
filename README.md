@@ -5,6 +5,8 @@
 快速获取搜索小说并获取book_id
 ### 2.阅读小说
 可使用~~windows内置语音引擎~~(已弃用)或使用[edge-tts](https://github.com/rany2/edge-tts)阅读小说
+!!! warning
+edge-tts已无法在国内使用 [查看](https://github.com/rany2/edge-tts/issues/265) 我正在寻找新的方法，请等待更新
 ### 3.爬取小说
 多线程一键爬取小说为txt文本
 ## 如何使用
