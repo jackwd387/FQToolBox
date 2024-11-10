@@ -3,7 +3,7 @@ import json
 import requests
 import time
 from Main.API import user_inquire
-print('欢迎使用FQ Toolbox V1.10')
+print('欢迎使用FQ Toolbox V1.11')
 print('一言:'+json.loads(requests.get(url='https://v1.hitokoto.cn').text)['hitokoto'])
 time.sleep(0.5)
 print('---------------')
@@ -17,7 +17,7 @@ while True:
     if choose == '1':
         os.system('python ./Main/FQSearch.py')
     elif choose == '2':
-        os.system('python ./Main/FQread.py')
+        os.system('python ./Main/FQRead.py')
     elif choose == '3':
         os.system('python ./Main/FQ爬虫.py')
     elif choose == '4':

@@ -1,7 +1,7 @@
 import API
 cookie = open('./Cookie.ini','r',encoding='utf-8').read()
 while True:
-    c = input('FQAPI TEST\n1.查询book_id\n2.查询item_id\n3.查询用户\n4.查询书架\n5.上传阅读进度\n6.添加书架\n请选择:')
+    c = input('FQAPI TEST\n1.查询book_id\n2.查询item_id\n3.查询用户\n4.查询书架\n5.上传阅读进度\n6.添加书架\n7.段评查看\n8.书评查看\n请选择:')
     if c == '1':
         API.book_id_inquire(input('book_id:'))
     elif c == '2':
@@ -14,5 +14,9 @@ while True:
         API.update_progres(cookie,input('item_id:'))
     elif c == '6':
         API.add_bookshelf(cookie,input('book_id:'))
+    elif c == '7':
+        API.paragraph_comments(input('item_id:'),input('para_index:'))
+    elif c == '8':
+        API.book_comments(input('book_id:'))
     else:
         break

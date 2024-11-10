@@ -5,42 +5,17 @@ import edge_tts
 import asyncio
 import _thread
 import json
-from API import update_progres,user_bookshelf
+from API import update_progres,user_bookshelf,book_id_inquire,item_id_inquire
 cookie = open('cookie.ini','r').read()
-title_list = []
-item_id_list = []
 executable = 'False'
 url = 'https://novel.snssdk.com/api/novel/reader/full/v1/?item_id='
-def get_item_id(book_id):
-    global name,title_list,item_id_list
-    url1 = 'https://fanqienovel.com/api/reader/directory/detail?bookId='+book_id
-    # 发送请求
-    json_data = json.loads(requests.get(url=url1).text)
-    """解析数据: 提取我们需要的数据内容"""
-    # 提取章节名
-    for i in json_data['data']['chapterListWithVolume']:
-        for v in i:
-            title_list.append(v['title'])
-    # 提取章节ID
-    item_id_list = json_data['data']['allItemIds']
-    # 提取书名
-    json_data2 = json.loads(requests.get(url=url+item_id_list[0]).text)
-    name = json_data2['data']['novel_data']['book_name']
-    print('书名:'+name)
-def get_content(item_id):
-        # 完整的小说章节链接
-        link_url = url + item_id
-        # 发送请求+获取数据内容
-        link_data = json.loads(requests.get(url=link_url).text)
-        # 把<p>转 \n 换行符
-        return link_data['data']['content'].replace('</p><p>','\n').replace('<p>','\n').replace('</p>','\n') #.replace('【','\n中括号\n').replace('】','\n中括号括回来\n')
 def thread(p):
     global content,voice,rate_count,volume_count,executable
     print('正在爬取并生成音频')
     if p > len(title_list):
         None
     else:
-        content = get_content(item_id_list[p-1])
+        content = item_id_inquire(item_id_list[p-1])[0]
         print(f'文字数:{len(content)}')
         asyncio.run(run_tts(title_list[p-1]+content,voice,rate_count,volume_count))
         if executable == 'False':
@@ -61,7 +36,10 @@ if __name__ == '__main__':
     book_id = input('book_id(输入空则使用最近播放):')
     if book_id == '':
         book_id = user_bookshelf(cookie)[0]
-    get_item_id(book_id)
+    data = book_id_inquire(book_id)
+    title_list = data[1]
+    item_id_list = data[0]
+    name = data[2]
     for r in range(len(title_list)):
         print(f'章节 {r+1} :{title_list[r]}')
     p = int(input('选择:'))

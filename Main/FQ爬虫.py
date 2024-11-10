@@ -5,40 +5,17 @@ import os
 import time
 import re
 import json
-name = ''
-title_list = []
-item_id_list = []
-url = 'https://novel.snssdk.com/api/novel/reader/full/v1/?item_id='
-def get_item_id(book_id):
-    global name,title_list,item_id_list
-    url1 = 'https://fanqienovel.com/api/reader/directory/detail?bookId='+book_id
-    # 发送请求
-    json_data = json.loads(requests.get(url=url1).text)
-    """解析数据: 提取我们需要的数据内容"""
-    # 提取章节名
-    for i in json_data['data']['chapterListWithVolume']:
-        for v in i:
-            title_list.append(v['title'])
-    # 提取章节ID
-    item_id_list = json_data['data']['allItemIds']
-    # 提取书名
-    json_data2 = json.loads(requests.get(url=url+item_id_list[0]).text)
-    name = json_data2['data']['novel_data']['book_name']
-    print('书名:'+name)
+from API import book_id_inquire,item_id_inquire
+
+
 def get_content(title,item_id):
-        # 完整的小说章节链接
-        link_url = url + item_id
-        # 发送请求+获取数据内容
-        link_data = json.loads(requests.get(url=link_url).text)
-        # 把<p>转 \n 换行符
-        data = link_data['data']['content'].replace('<p>','\n').replace('</p>','\n')
-        # print(content)
-        #print(link_url)
+        data = item_id_inquire(item_id)
+        title = data[1]
         title = re.sub(r"[\/\\\:\*\?\"\<\>\|]","_",title)#去掉非法字符
         with open('./output/'+ name +'/'+ title + '.txt', mode='w', encoding='utf-8') as f:
             f.write(title)
             f.write('\n\n')
-            f.write(data)
+            f.write(data[0])
             f.write('\n\n')
             f.close
         print(title+'爬取成功')
@@ -52,8 +29,11 @@ headers = {
     }
 # url地址(小说主页)
 book_id = input('book_id:')
-get_item_id(book_id)
-if not os.path.exists(name):
+data = book_id_inquire(book_id)
+item_id_list = data[0]
+title_list = data[1]
+name = data[2]
+if not os.path.exists('./output/'+name):
     os.makedirs('./output/'+name)
 c = input('1.爬取全文\n2.爬取单章\nNext:')
 if c == '1':
