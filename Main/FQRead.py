@@ -1,10 +1,7 @@
-# 导入数据请求模块
-import requests
 import os
 import edge_tts
 import asyncio
 import _thread
-import json
 from API import update_progres,user_bookshelf,book_id_inquire,item_id_inquire
 cookie = open('cookie.ini','r').read()
 executable = 'False'
@@ -35,7 +32,7 @@ headers = {
 if __name__ == '__main__':
     book_id = input('book_id(输入空则使用最近播放):')
     if book_id == '':
-        book_id = user_bookshelf(cookie)[0]
+        book_id = user_bookshelf(cookie)[0][0]
     data = book_id_inquire(book_id)
     title_list = data[1]
     item_id_list = data[0]
