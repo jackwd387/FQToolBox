@@ -11,7 +11,7 @@ if not os.path.exists('cookie.ini'):
     open('cookie.ini','w',encoding='utf-8')
 data = user_inquire(open('cookie.ini','r',encoding='utf-8').read())
 if data == 'false':
-    print('登录失败,部分功能无法使用，请在cookie.ini配置cookie')
+    print('登录失败,部分功能无法使用，请配置cookie')
 else:
     print(f'用户名称:{data[0]}')
     print(f'用户头像URL:{data[1]}')
@@ -19,7 +19,7 @@ else:
     print(f'用户简介:{data[3]}')
 print('---------------')
 while True:
-    choose = input('1.搜索书籍\n2.阅读书籍\n3.爬取书籍\n4.DEBUG\n请选择:')
+    choose = input('1.搜索书籍\n2.阅读书籍\n3.爬取书籍\n4.设置\n5.DEBUG\n请选择:')
     if choose == '1':
         os.system('python ./Main/FQSearch.py')
     elif choose == '2':
@@ -27,6 +27,23 @@ while True:
     elif choose == '3':
         os.system('python ./Main/FQ爬虫.py')
     elif choose == '4':
+        choose = input('1.设置Cookie\n请选择:')
+        if choose == '1':
+            while True:
+                cookie = input('Cookie:')
+                data = user_inquire(cookie)
+                if data == 'false':
+                    print('Cookie无效,请重新设置')
+                else:
+                    f = open('cookie.ini','w',encoding='utf-8')
+                    f.write(cookie)
+                    f.close
+                    print(f'用户名称:{data[0]}')
+                    print(f'用户头像URL:{data[1]}')
+                    print(f'用户id:{data[2]}')
+                    print(f'用户简介:{data[3]}')
+                    break
+    elif choose == '5':
         choose = input('1.api测试\n2.番茄听书\n请选择:')
         if choose == '1':
             os.system('python ./Main/Test.py')
