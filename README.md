@@ -13,5 +13,5 @@
 pip install requests edge-tts asyncio
 ```
 且还需要安装[mpv](https://mpv.io/)用以播放小说
-
+## 软件截图
 ![软件截图](https://github.com/user-attachments/assets/0282a825-1182-4fd5-99ea-9f024d21b1fb)
