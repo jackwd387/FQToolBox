@@ -68,7 +68,7 @@ if __name__ == '__main__':
                 item_id = item_id_list[p-1+count]
                 count += 1
                 print('即将播放:'+name+':'+title)
-                update_progres(cookie,item_id)
+                _thread.start_new_thread(update_progres,(cookie,item_id))
                 _thread.start_new_thread(thread,(p+count,))
                 os.system('mpv '+'"'+output_files+item_id+'_TEMP.mp3'+'"')
                 os.remove(output_files+item_id+'_TEMP.mp3')

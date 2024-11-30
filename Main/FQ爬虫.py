@@ -1,16 +1,11 @@
-# 导入数据请求模块
-import requests
-import _thread
+import threading
 import os
-import time
+from tqdm import tqdm
 import re
-import json
 from API import book_id_inquire,item_id_inquire
-
 
 def get_content(title,item_id):
         data = item_id_inquire(item_id)
-        title = data[1]
         title = re.sub(r"[\/\\\:\*\?\"\<\>\|]","_",title)#去掉非法字符
         with open('./output/'+ name +'/'+ title + '.txt', mode='w', encoding='utf-8') as f:
             f.write(title)
@@ -18,8 +13,10 @@ def get_content(title,item_id):
             f.write(data[0])
             f.write('\n\n')
             f.close
-        print(title+'爬取成功')
+        #print(title+'爬取成功')
 
+threads = []
+threads_1 = []
 # 模拟浏览器
 headers = {
     # User-Agent 用户代理, 表示浏览器/设备的基本身份信息
@@ -39,19 +36,45 @@ c = input('1.爬取全文\n2.爬取单章\nNext:')
 if c == '1':
     #print(title_list)
     # for循环遍历, 提取列表里元素
-    if input('是否全文爬取(这将会爬取书籍的所有章节，若否则将会爬取未被爬取的章节)y/n(默认n):') == 'y':
+    c1 = input('1.全文爬取\n2.更新爬取(只会爬取未爬取的章节):')
+    if c1 == '1':
         for title,item_id in zip(title_list, item_id_list):
-            _thread.start_new_thread(get_content,(title,item_id))
-            time.sleep(0.003)
-        input('--------------------------------------------\n总章数:'+str(len(title_list))+"\n等待所有线程下载完毕后，按下回车键\n--------------------------------------------\n")
-    print('开始效验并更新文件')
-    for title,item_id in zip(title_list, item_id_list):
-        if os.path.exists('./output/'+ name +'/'+ title + '.txt'):
-            print(f"{title}已创建")
-        else:
-            print(f'提示:{title}没有被创建')
-            _thread.start_new_thread(get_content,(title,item_id))
-    input('--------------------------------------------\n总章数:'+str(len(title_list))+"\n等待所有线程下载完毕后，按下回车键\n--------------------------------------------\n")
+            thread = threading.Thread(target=get_content,args=(title,item_id))
+            threads.append(thread)
+        for thread in tqdm(threads):
+            thread.start()
+        for thread in threads:
+            thread.join()
+        print('开始效验')
+        for title,item_id in zip(title_list, item_id_list):
+            title = re.sub(r"[\/\\\:\*\?\"\<\>\|]","_",title)#去掉非法字符
+            if os.path.exists('./output/'+ name +'/'+ title + '.txt'):
+                #print(f"{title}已创建")
+                pass
+            else:
+                print(f'提示:{title}没有被创建')
+                thread = threading.Thread(target=get_content,args=(title,item_id))
+                threads_1.append(thread)
+            if threads_1 != []:
+                for thread in tqdm(threads_1):
+                    thread.start()
+                for thread in threads_1:
+                    thread.join()
+        print('效验完成')
+    elif c1 == '2':
+        for title,item_id in zip(title_list, item_id_list):
+            title = re.sub(r"[\/\\\:\*\?\"\<\>\|]","_",title)#去掉非法字符
+            if os.path.exists('./output/'+ name +'/'+ title + '.txt'):
+                print(f"{title}已创建")
+            else:
+                print(f'提示:{title}没有被创建')
+                thread = threading.Thread(target=get_content,args=(title,item_id))
+                threads_1.append(thread)
+        if threads_1 != []:
+            for thread in tqdm(threads_1):
+                thread.start()
+            for thread in threads_1:
+                thread.join()
 elif c == '2':
     for r in range(len(title_list)):
         print(f'章节 {r+1} :{title_list[r]}')

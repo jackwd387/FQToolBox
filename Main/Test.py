@@ -14,7 +14,7 @@ while True:
         print(f'score:{data[6]}')
         print(f'read_count:{data[8]}')
         print(f'word_number:{data[7]}')
-        print(f'thumb_url:{data[9]}')
+        print(f'thumb_url:{data[10]}')
     elif c == '2':
         data = API.item_id_inquire(input('item_id:'))
         print(f'content:{data[0]}')
