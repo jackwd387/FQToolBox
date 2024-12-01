@@ -126,3 +126,19 @@ def book_comments(book_id):
     for i in res:
         dic[i['user_info']['user_name']] = i['text']
     return dic
+
+def recommended_list():
+    url = "https://api5-normal-sinfonlinec.fqnovel.com/reading/bookapi/bookmall/tab/v/?aid=1967"
+    data = json.loads(requests.get(url).text)['data']['tab_item'][0]['cell_data'][0]['cell_data'][0]['book_data']
+    data_list = []
+    for r in data:
+        dic = {}
+        dic['book_id'] = r['book_id']
+        dic['book_name'] = r['book_name']
+        dic['abstract'] = r['abstract']
+        dic['author'] = r['author']
+        dic['create_time'] = r['create_time']
+        dic['read_count'] = r['read_count']
+        dic['score'] = r['score']
+        data_list.append(dic)
+    return data_list

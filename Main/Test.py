@@ -45,5 +45,7 @@ while True:
         print(API.paragraph_comments(input('item_id:'),input('para_index:')))
     elif c == '8':
         print(API.book_comments(input('book_id:')))
+    elif c == '9':
+        print(API.recommended_list())
     else:
         break
