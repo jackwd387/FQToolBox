@@ -26,7 +26,7 @@ if [ -z "$PREFIX" ] || [ ! -d "$PREFIX" ]; then
 
         # 安装所需的 Python 库
         echo "正在安装所需的Python库┐(´ー｀)┌"
-        pip install requests edge-tts asyncio
+        pip install requests edge-tts asyncio tqdm
 
         #下载并解压 FQToolBox 项目
         echo "正在从 GitHub 下载 FQToolBox，此处可能需要科学上网，快了快了←_←"
