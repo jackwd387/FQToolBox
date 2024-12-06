@@ -3,6 +3,7 @@ import os
 from tqdm import tqdm
 import re
 from API import book_id_inquire,item_id_inquire
+from pathlib import Path
 
 def get_content(title,item_id):
         data = item_id_inquire(item_id)
@@ -18,12 +19,7 @@ def get_content(title,item_id):
 threads = []
 threads_1 = []
 # 模拟浏览器
-headers = {
-    # User-Agent 用户代理, 表示浏览器/设备的基本身份信息
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
-    #cookie
-    ,'Cookie': open('cookie.ini','r').read()
-    }
+headers = {'Cookie': open('cookie.ini','r').read()}
 # url地址(小说主页)
 book_id = input('book_id:')
 data = book_id_inquire(book_id)
@@ -75,6 +71,19 @@ if c == '1':
                 thread.start()
             for thread in threads_1:
                 thread.join()
+    if input('是否合并TXT?(y/n):') == 'y':
+        content = ""
+        for title in title_list:
+            title = re.sub(r"[\/\\\:\*\?\"\<\>\|]","_",title)#去掉非法字符
+            txt_file = './output/' + name + '.txt'
+            with open(txt_file,'w',encoding='utf-8') as files:
+                files.write(f'书名:{name}\n')
+                with open('./output/'+ name +'/'+ title + '.txt', 'r', encoding='utf-8') as file:
+                    content += file.read()
+                    file.close()
+                files.write(content)
+                files.close()
+        print(f'合并完成,已添加到{txt_file}')
 elif c == '2':
     for r in range(len(title_list)):
         print(f'章节 {r+1} :{title_list[r]}')
