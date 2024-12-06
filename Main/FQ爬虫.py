@@ -26,6 +26,7 @@ data = book_id_inquire(book_id)
 item_id_list = data[0]
 title_list = data[1]
 name = data[2]
+author = data[3]
 if not os.path.exists('./output/'+name):
     os.makedirs('./output/'+name)
 c = input('1.爬取全文\n2.爬取单章\nNext:')
@@ -78,6 +79,7 @@ if c == '1':
             txt_file = './output/' + name + '.txt'
             with open(txt_file,'w',encoding='utf-8') as files:
                 files.write(f'书名:{name}\n')
+                files.write(f'作者:{author}\n')
                 with open('./output/'+ name +'/'+ title + '.txt', 'r', encoding='utf-8') as file:
                     content += file.read()
                     file.close()
