@@ -3,16 +3,15 @@ import os
 from tqdm import tqdm
 import re
 from API import book_id_inquire,item_id_inquire
-from pathlib import Path
 
 def get_content(title,item_id):
         data = item_id_inquire(item_id)
         title = re.sub(r"[\/\\\:\*\?\"\<\>\|]","_",title)#去掉非法字符
         with open('./output/'+ name +'/'+ title + '.txt', mode='w', encoding='utf-8') as f:
             f.write(title)
-            f.write('\n\n')
+            f.write('\n')
             f.write(data[0])
-            f.write('\n\n')
+            f.write('\n')
             f.close
         #print(title+'爬取成功')
 
@@ -27,6 +26,7 @@ item_id_list = data[0]
 title_list = data[1]
 name = data[2]
 author = data[3]
+abstract = data[4]
 if not os.path.exists('./output/'+name):
     os.makedirs('./output/'+name)
 c = input('1.爬取全文\n2.爬取单章\nNext:')
@@ -58,6 +58,21 @@ if c == '1':
                 for thread in threads_1:
                     thread.join()
         print('效验完成')
+        if input('是否合并TXT?(y/n):') == 'y':
+            content = ""
+            for title in title_list:
+                title = re.sub(r"[\/\\\:\*\?\"\<\>\|]","_",title)#去掉非法字符
+                txt_file = './output/' + name + '.txt'
+                with open(txt_file,'w',encoding='utf-8') as files:
+                    files.write(f'书名:{name}\n')
+                    files.write(f'作者:{author}\n')
+                    files.write(f'简介:{abstract}\n——————————————\n')
+                    with open('./output/'+ name +'/'+ title + '.txt', 'r', encoding='utf-8') as file:
+                        content += file.read()
+                        file.close()
+                    files.write(content)
+                    files.close()
+            print(f'合并完成,已添加到{txt_file}')
     elif c1 == '2':
         for title,item_id in zip(title_list, item_id_list):
             title = re.sub(r"[\/\\\:\*\?\"\<\>\|]","_",title)#去掉非法字符
@@ -72,20 +87,6 @@ if c == '1':
                 thread.start()
             for thread in threads_1:
                 thread.join()
-    if input('是否合并TXT?(y/n):') == 'y':
-        content = ""
-        for title in title_list:
-            title = re.sub(r"[\/\\\:\*\?\"\<\>\|]","_",title)#去掉非法字符
-            txt_file = './output/' + name + '.txt'
-            with open(txt_file,'w',encoding='utf-8') as files:
-                files.write(f'书名:{name}\n')
-                files.write(f'作者:{author}\n')
-                with open('./output/'+ name +'/'+ title + '.txt', 'r', encoding='utf-8') as file:
-                    content += file.read()
-                    file.close()
-                files.write(content)
-                files.close()
-        print(f'合并完成,已添加到{txt_file}')
 elif c == '2':
     for r in range(len(title_list)):
         print(f'章节 {r+1} :{title_list[r]}')
