@@ -7,5 +7,5 @@ for i in recommended_list():
     print(f"书籍创建时间:{i['create_time']}")
     print(f"阅读人数:{i['read_count']}")
     print(f"分数:{i['score']}")
-    print('------------')
+    print('————————————————————')
     

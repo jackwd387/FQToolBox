@@ -1,7 +1,7 @@
 import requests
 import json
 import time
-
+import re
 def book_id_inquire(book_id):
     # url = 'https://novel.snssdk.com/api/novel/book/directory/list/v/?book_id= 被和谐
     url = f'https://api5-normal-sinfonlinec.fqnovel.com/reading/user/share/info/v/?group_id={book_id}&aid=1967&version_code=513'
@@ -40,7 +40,9 @@ def item_id_inquire(item_id):
     # url1 = 'https://api5-normal-sinfonlinec.fqnovel.com/reading/bookapi/detail/v/?book_id=7421167583522458648&iid=3956468249796948&aid=1967&version_code=513' headers = {"X-Argus":"TEq3zqiMiX8Tauf+Y9nvEiUBYmWyYJ7izG4CQ/ro7zgkJ9f+Zkot7BSehMqcBNyUGyV6JP7a0AMO9AXFr+ypIoBtmkAzSIKHgMgZtsSS/aaAbQbn3v/cHzoaeTDSs4zdHg/T605YGbFmX7wADPS+OflnI0H/f4nLFOMb1Y/ZUED2JW6pe1haPwyHFKnPO0sE8fe+fEXJLA2uxnGdioqrYAauQ9V+lVkMxORWgEwvxAW2UZPOsh6ypDG/hrFc6vX0uZ9stlzQR3upKKgu+msT8hfF"} 备用
     url1 = 'https://novel.snssdk.com/api/novel/reader/full/v1/?item_id=' #备用API
     json_data3 = json.loads(requests.get(url=url1+item_id).text)
-    content = json_data3['data']['content'].replace('</p><p>','\n').replace('</p>','\n').replace('<p>','\n')
+    content = re.sub(r"</?p.*?>",'\n',json_data3['data']['content'].replace('</p><p>','\n'))
+    content = re.sub(r"</?div.*?>",'',content)
+    content = re.sub(r"</?img.*?>",'',content)
     title = json_data3['data']['novel_data']['title']
     author = json_data3['data']['novel_data']['author']
     book_id = json_data3['data']['novel_data']['book_id']
@@ -61,7 +63,10 @@ def user_inquire(cookie):
         User_avatar_url = json_data4['data']['avatar']
         User_name = json_data4['data']['name']
         User_id = json_data4['data']['id']
-        User_desc = json_data4['data']['desc']
+        if 'desc' in json_data4['data']:
+            User_desc = json_data4['data']['desc']
+        else:
+            User_desc = ''
         return User_name,User_avatar_url,User_id,User_desc
 
 def user_bookshelf(cookie):

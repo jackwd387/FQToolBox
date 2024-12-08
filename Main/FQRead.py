@@ -5,7 +5,6 @@ import _thread
 from API import update_progres,user_bookshelf,book_id_inquire,item_id_inquire
 cookie = open('cookie.ini','r').read()
 executable = 'False'
-url = 'https://novel.snssdk.com/api/novel/reader/full/v1/?item_id='
 def thread(p):
     global content,voice,rate_count,volume_count,executable
     print('正在爬取并生成音频')

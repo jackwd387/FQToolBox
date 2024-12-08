@@ -36,7 +36,7 @@ while True:
             print('用户书架书籍:'+data[0][i])
             print('此用户在此书最后一次阅读的章节:'+data[1][i])
             print('此用户在此书最后一次阅读的时间:'+data[2][i])
-            print('---------------')
+            print('————————————————————')
     elif c == '5':
         API.update_progres(cookie,input('item_id:'))
     elif c == '6':
