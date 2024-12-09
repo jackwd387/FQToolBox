@@ -29,12 +29,14 @@ if [ -z "$PREFIX" ] || [ ! -d "$PREFIX" ]; then
         pip install requests edge-tts asyncio tqdm
 
         #下载并解压 FQToolBox 项目
-        echo "正在从 GitHub 下载 FQToolBox，此处可能需要科学上网，快了快了←_←"
-        curl -o FQToolBox.zip "https://codeload.github.com/jackwd387/FQToolBox/zip/refs/heads/main" || { echo "下载失败，请尝试使用科学上网(〒﹏〒)"; exit 1; }
+        echo "正在从 GitHub 下载 FQToolBox,快了快了←_←"
+        curl -o FQToolBox.zip "https://ghproxy.net/https://github.com/jackwd387/FQToolBox/archive/refs/heads/main.zip" || { echo "下载失败(〒﹏〒)"; exit 1; }
             echo "正在解压 FQToolBox..."
                 unzip -o -d ~/storage/downloads FQToolBox.zip
                 # 进入解压目录并运行 FQToolBox
                 cd ~/storage/downloads/FQToolBox-main || { echo "无法进入 FQToolBox 目录"; exit 1; }
+                sed -i '$ a\alias fqtoolbox="cd ~/storage/downloads/FQToolBox-main && python ./Menu.py"' ~/.bashrc
+                #环境变量
                 echo "all done，运行脚本(≧▽≦)"
                 python Menu.py
                 
