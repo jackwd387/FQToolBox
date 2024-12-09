@@ -9,9 +9,7 @@ pkg install python -y
 echo "python换源"
 pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple/
 echo "安装依赖"
-pip install requests
-pip install edge-tts
-pip install asyncio
+pip install requests edge-tts asyncio tqdm
 echo "从github获取FQToolBox，此处可能需要科学上网"
 curl -o FQToolBox.zip "https://codeload.github.com/jackwd387/FQToolBox/zip/refs/heads/main"
 unzip -d ~/storage/downloads FQToolBox.zip
