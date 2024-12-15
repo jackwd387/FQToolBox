@@ -17,3 +17,5 @@ pip install requests edge-tts asyncio tqdm
 [如何获取Cookie](https://github.com/jackwd387/FQToolBox/issues/2)
 ## 软件截图
 ![软件截图](https://github.com/user-attachments/assets/0282a825-1182-4fd5-99ea-9f024d21b1fb)
+## 声明
+此项目仅供学习与交流，请在24小时删除以及软件所产生的数据
