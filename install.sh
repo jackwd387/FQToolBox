@@ -23,10 +23,11 @@ if [ -z "$PREFIX" ] || [ ! -d "$PREFIX" ]; then
         # 配置 Python 的 pip 源
         echo "正在配置 Python 的 pip 源为清华大学镜像(・o・)"
         pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple/
-
+        # 安装 python-lxml
+        pkg install python-lxml -y
         # 安装所需的 Python 库
         echo "正在安装所需的Python库┐(´ー｀)┌"
-        pip install requests edge-tts asyncio tqdm
+        pip install requests edge-tts asyncio tqdm ebooklib
 
         #下载并解压 FQToolBox 项目
         echo "正在从 GitHub 下载 FQToolBox,快了快了←_←"
