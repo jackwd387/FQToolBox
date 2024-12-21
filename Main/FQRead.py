@@ -2,6 +2,7 @@ import os
 import edge_tts
 import asyncio
 import threading
+import re
 from API import update_progres,user_bookshelf,book_id_inquire,item_id_inquire
 cookie = open('cookie.ini','r').read()
 def thread(p):
@@ -11,6 +12,9 @@ def thread(p):
         pass
     else:
         content = item_id_inquire(item_id_list[p])[0]
+        content = re.sub(r"</?p.*?>",'\n',content)
+        content = re.sub(r"</?div.*?>",'',content)
+        content = re.sub(r"</?img.*?>",'',content)
         #print(f'文字数:{len(content)}')
         asyncio.run(run_tts(title_list[p]+content,voice,rate_count,volume_count))
 async def run_tts(text: str, voice: str,rate:str,volume:str) -> None:
@@ -30,7 +34,7 @@ if __name__ == '__main__':
         print(f'章节 {r+1} :{title_list[r]}')
     p = input('选择(输入空则使用最近播放章节):')
     content = None
-    output_files = './TEMP/' + book_id + '_ceche/'
+    output_files = './TEMP/' + book_id + '_cache/'
     if p == '':
         item_id = user_data[1][0]
         p = item_id_list.index(item_id)

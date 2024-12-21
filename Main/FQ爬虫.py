@@ -7,19 +7,20 @@ from API import book_id_inquire,item_id_inquire
 def get_content(title,item_id):
         data = item_id_inquire(item_id)
         title = re.sub(r"[\/\\\:\*\?\"\<\>\|]","_",title)#去掉非法字符
+        content = re.sub(r"</?p.*?>",'\n',data[0].replace('</p><p>','\n'))
+        content = re.sub(r"</?div.*?>",'',content)
+        content = re.sub(r"</?img.*?>",'',content)
         with open('./output/'+ name +'/'+ title + '.txt', mode='w', encoding='utf-8') as f:
             f.write(title)
             f.write('\n')
-            f.write(data[0])
+            f.write(content)
             f.write('\n')
             f.close
         #print(title+'爬取成功')
 
 threads = []
 threads_1 = []
-# 模拟浏览器
 headers = {'Cookie': open('cookie.ini','r').read()}
-# url地址(小说主页)
 book_id = input('book_id:')
 data = book_id_inquire(book_id)
 item_id_list = data[0]
@@ -74,7 +75,7 @@ if c == '1':
                 thread.join()
     if input('是否合并TXT?(y/n):') == 'y':
         content = ""
-        for title in title_list:
+        for title in tqdm(title_list):
             title = re.sub(r"[\/\\\:\*\?\"\<\>\|]","_",title)#去掉非法字符
             txt_file = './output/' + name + '.txt'
             with open(txt_file,'w',encoding='utf-8') as files:
