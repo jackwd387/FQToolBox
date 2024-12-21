@@ -10,7 +10,7 @@
 ## 如何使用
 运行以下代码以安装所需运行库
 ```bash
-pip install requests edge-tts asyncio tqdm
+pip install requests edge-tts asyncio tqdm ebooklib
 ```
 且还需要安装[mpv](https://mpv.io/)用以播放小说
 
