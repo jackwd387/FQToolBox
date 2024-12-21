@@ -1,11 +1,9 @@
 import os
 import json
 import requests
-import time
 from Main.API import user_inquire
 print('欢迎使用FQ Toolbox V1.12')
 print('一言:'+json.loads(requests.get(url='https://v1.hitokoto.cn').text)['hitokoto'])
-time.sleep(0.5)
 print('————————————————————')
 if not os.path.exists('cookie.ini'):
     ce = open('cookie.ini','w',encoding='utf-8')
@@ -23,7 +21,7 @@ else:
 data.close()
 print('————————————————————')
 while True:
-    choose = input('1.搜索书籍\n2.阅读书籍\n3.爬取书籍\n4.推荐榜\n5.设置\n6.DEBUG\n请选择:')
+    choose = input('1.搜索书籍\n2.阅读书籍\n3.爬取书籍\n4.爬取书籍(epub)\n5.推荐榜\n6.设置\n7.DEBUG\n请选择:')
     if choose == '1':
         os.system('python ./Main/FQSearch.py')
     elif choose == '2':
@@ -31,8 +29,10 @@ while True:
     elif choose == '3':
         os.system('python ./Main/FQ爬虫.py')
     elif choose == '4':
-        os.system('python ./Main/FQ推荐.py')
+        os.system('python ./Main/FQ爬虫_epub.py')
     elif choose == '5':
+        os.system('python ./Main/FQ推荐.py')
+    elif choose == '6':
         choose = input('1.设置Cookie\n请选择:')
         if choose == '1':
             while True:
@@ -49,7 +49,7 @@ while True:
                     print(f'用户id:{data[2]}')
                     print(f'用户简介:{data[3]}')
                 break
-    elif choose == '6':
+    elif choose == '7':
         choose = input('1.api测试\n2.番茄听书\n请选择:')
         if choose == '1':
             os.system('python ./Main/Test.py')
