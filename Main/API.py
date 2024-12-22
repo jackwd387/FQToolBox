@@ -4,8 +4,8 @@ import time
 import re
 def book_id_inquire(book_id):
     # url = 'https://novel.snssdk.com/api/novel/book/directory/list/v/?book_id= 被和谐
-    url = f'https://api5-normal-sinfonlinec.fqnovel.com/reading/user/share/info/v/?group_id={book_id}&aid=1967&version_code=513'
-    # url = 'https://api5-normal-sinfonlineb.fqnovel.com/reading/bookapi/multi-detail/v/?aid=1967&iid=1&version_code=999&book_id='
+    # url = f'https://api5-normal-sinfonlinec.fqnovel.com/reading/user/share/info/v/?group_id={book_id}&aid=1967&version_code=513-' 分享接口
+    url = f'https://api5-normal-sinfonlineb.fqnovel.com/reading/bookapi/multi-detail/v/?aid=1967&iid=1&version_code=999&book_id={book_id}'
     url1 = 'https://fanqienovel.com/api/reader/directory/detail?bookId='
     # 数据获取
     json_data = json.loads(requests.get(url=url).text)
@@ -16,15 +16,15 @@ def book_id_inquire(book_id):
         for v in i:
             title_list.append(v['title'])
     item_id_list = json_data2['data']['allItemIds']
-    book_name = json_data['data']['book_info']['book_name']
-    author = json_data['data']['book_info']['author']
-    abstract = json_data['data']['book_info']['abstract']
-    tags = json_data['data']['book_info']['tags']
-    score = json_data['data']['book_info']['score']
-    word_number = json_data['data']['book_info']['word_number']
-    read_count = json_data['data']['book_info']['read_count']
-    creation_status = json_data['data']['book_info']['creation_status']
-    thumb_url = json_data['data']['book_info']['thumb_url']
+    book_name = json_data['data'][0]['book_name']
+    author = json_data['data'][0]['author']
+    abstract = json_data['data'][0]['abstract']
+    tags = json_data['data'][0]['tags']
+    score = json_data['data'][0]['score']
+    word_number = json_data['data'][0]['word_number']
+    read_count = json_data['data'][0]['read_count']
+    creation_status = json_data['data'][0]['creation_status']
+    thumb_url = json_data['data'][0]['thumb_url']
     if creation_status == '0':
         print('状态:完结')
     elif creation_status == '1':
