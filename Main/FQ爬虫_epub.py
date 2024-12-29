@@ -2,6 +2,7 @@ import threading
 import os
 from tqdm import tqdm
 from ebooklib import epub
+import time
 import re
 from API import book_id_inquire,item_id_inquire
 
@@ -45,10 +46,19 @@ if c == '1':
         for title,item_id in zip(title_list, item_id_list):
             thread = threading.Thread(target=get_content,args=(title,item_id))
             threads.append(thread)
-        for thread in tqdm(threads):
-            thread.start()
-        for thread in threads:
-            thread.join()
+        if len(title_list) > 1000:
+            for thread in tqdm(threads,desc='释放线程中'):
+                time.sleep(0.012)
+                thread.start()
+            print('正在等待线程执行完毕，该过程耗时根据你的宽带')
+            for thread in threads:
+                thread.join()
+        else:
+            for thread in tqdm(threads,desc='释放线程中'):
+                thread.start()
+            print('正在等待线程执行完毕，该过程耗时根据你的宽带')
+            for thread in threads:
+                thread.join()
         for item_id,title in zip(item_id_list,title_list):
 	        # 创建章节
             chaplist.append(epub.EpubHtml(title=title, file_name=f'{item_id}.xhtml', lang='zh',content=item_content_list[item_id]))

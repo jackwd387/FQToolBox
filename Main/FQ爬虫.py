@@ -2,6 +2,7 @@ import threading
 import os
 from tqdm import tqdm
 import re
+import time
 from API import book_id_inquire,item_id_inquire
 
 def get_content(title,item_id):
@@ -40,10 +41,20 @@ if c == '1':
         for title,item_id in zip(title_list, item_id_list):
             thread = threading.Thread(target=get_content,args=(title,item_id))
             threads.append(thread)
-        for thread in tqdm(threads):
-            thread.start()
-        for thread in threads:
-            thread.join()
+        if len(title_list) > 1000:
+            print('章节数量超过1000，为防止接口请求失败，已限制释放线程速度')
+            for thread in tqdm(threads,desc='释放线程中'):
+                time.sleep(0.012)
+                thread.start()
+            print('正在等待线程执行完毕，该过程耗时根据你的宽带')
+            for thread in threads:
+                thread.join()
+        else:
+            for thread in tqdm(threads,desc='释放线程中'):
+                thread.start()
+            print('正在等待线程执行完毕，该过程耗时根据你的宽带')
+            for thread in threads:
+                thread.join()
         print('开始效验')
         for title,item_id in zip(title_list, item_id_list):
             title = re.sub(r"[\/\\\:\*\?\"\<\>\|]","_",title)#去掉非法字符
@@ -55,10 +66,10 @@ if c == '1':
                 thread = threading.Thread(target=get_content,args=(title,item_id))
                 threads_1.append(thread)
             if threads_1 != []:
-                for thread in tqdm(threads_1):
-                    thread.start()
-                for thread in threads_1:
-                    thread.join()
+                for fixthread in tqdm(threads_1):
+                    fixthread.start()
+                for fixthread in threads_1:
+                    fixthread.join()
         print('效验完成')
     elif c1 == '2':
         for title,item_id in zip(title_list, item_id_list):
