@@ -51,9 +51,9 @@ if c == '1':
             thread.join()
         for item_id,title in zip(item_id_list,title_list):
 	        # 创建章节
-	        chaplist.append(epub.EpubHtml(title=title, file_name=f'{item_id}.xhtml', lang='zh',content=item_content_list[item_id]))
+            chaplist.append(epub.EpubHtml(title=title, file_name=f'{item_id}.xhtml', lang='zh',content=item_content_list[item_id]))
         for chap in chaplist:
-	        book.add_item(chap)
+            book.add_item(chap)
         book.toc = chaplist
         # 书脊设置
         book.spine = chaplist

@@ -69,7 +69,7 @@ def user_inquire(cookie):
 
 def user_bookshelf(cookie):
     url3 = 'https://fanqienovel.com/api/reader/book/progress'
-    url = 'https://api5-normal-sinfonlineb.fqnovel.com/reading/bookapi/multi-detail/v/?aid=1967&iid=1&version_code=999&book_id='
+    # url = 'https://api5-normal-sinfonlineb.fqnovel.com/reading/bookapi/multi-detail/v/?aid=1967&iid=1&version_code=999&book_id=' 
     headers = {
     'Cookie': cookie
     }
@@ -145,3 +145,17 @@ def recommended_list():
         dic['score'] = r['score']
         data_list.append(dic)
     return data_list
+def user_id_inquire(user_id):
+    url = f"https://api5-normal-sinfonlinec.fqnovel.com/reading/user/basic_info/get/v?user_id={user_id}&aid=1967&version_code=65532"
+    data = json.loads(requests.get(url).text)
+    user_name = data['data']['user_name']
+    user_avatar = data['data']['user_avatar']
+    is_author = data['data']['is_author']
+    description = data['data']['description']
+    read_book_time = data['data']['read_book_time']
+    read_book_num = data['data']['read_book_num']
+    recv_digg_num = data['data']['recv_digg_num']
+    fans_num = data['data']['fans_num']
+    follow_user_num = data['data']['follow_user_num']
+    return user_name,user_avatar,is_author,description,read_book_time,read_book_num,recv_digg_num,fans_num,follow_user_num
+    

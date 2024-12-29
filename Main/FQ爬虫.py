@@ -10,6 +10,7 @@ def get_content(title,item_id):
         content = re.sub(r"</?p.*?>",'\n',data[0].replace('</p><p>','\n'))
         content = re.sub(r"</?div.*?>",'',content)
         content = re.sub(r"</?img.*?>",'',content)
+        item_content_list[item_id] = title + content
         with open('./output/'+ name +'/'+ title + '.txt', mode='w', encoding='utf-8') as f:
             f.write(title)
             f.write('\n')
@@ -17,7 +18,7 @@ def get_content(title,item_id):
             f.write('\n')
             f.close
         #print(title+'爬取成功')
-
+item_content_list = {}
 threads = []
 threads_1 = []
 headers = {'Cookie': open('cookie.ini','r').read()}
@@ -75,18 +76,15 @@ if c == '1':
                 thread.join()
     if input('是否合并TXT?(y/n):') == 'y':
         content = ""
-        for title in tqdm(title_list):
-            title = re.sub(r"[\/\\\:\*\?\"\<\>\|]","_",title)#去掉非法字符
-            txt_file = './output/' + name + '.txt'
-            with open(txt_file,'w',encoding='utf-8') as files:
-                files.write(f'书名:{name}\n')
-                files.write(f'作者:{author}\n')
-                files.write(f'简介:{abstract}\n——————————————\n')
-                with open('./output/'+ name +'/'+ title + '.txt', 'r', encoding='utf-8') as file:
-                    content += file.read()
-                    file.close()
-                files.write(content)
-                files.close()
+        for item_id in tqdm(item_id_list):
+            content += item_content_list[item_id]
+        txt_file = './output/' + name + '.txt'
+        with open(txt_file,'w',encoding='utf-8') as files:
+            files.write(f'书名:{name}\n')
+            files.write(f'作者:{author}\n')
+            files.write(f'简介:{abstract}\n——————————————\n')
+            files.write(content)
+            files.close()
         print(f'合并完成,已添加到{txt_file}')
 elif c == '2':
     for r in range(len(title_list)):

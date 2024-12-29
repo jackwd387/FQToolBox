@@ -1,7 +1,7 @@
 import API
 cookie = open('./Cookie.ini','r',encoding='utf-8').read()
 while True:
-    c = input('FQAPI TEST\n1.查询book_id\n2.查询item_id\n3.查询用户\n4.查询书架\n5.上传阅读进度\n6.添加书架\n7.段评查看\n8.书评查看\n请选择:')
+    c = input('FQAPI TEST\n1.查询book_id\n2.查询item_id\n3.查询用户\n4.查询书架\n5.上传阅读进度\n6.添加书架\n7.段评查看\n8.书评查看\n9.查询user_id\n请选择:')
     if c == '1':
         data = API.book_id_inquire(input('book_id:'))
         for i in range(len(data[0])):
@@ -46,6 +46,15 @@ while True:
     elif c == '8':
         print(API.book_comments(input('book_id:')))
     elif c == '9':
-        print(API.recommended_list())
+        data = API.user_id_inquire(input('user_id:'))
+        print(f'用户名:{data[0]}')
+        print(f'头像:{data[1]}')
+        print(f'是否作家:{data[2]}')
+        print(f'简介:{data[3]}')
+        print(f'阅读时间:{data[4]}')
+        print(f'阅读数量:{data[5]}')
+        print(f'点赞数:{data[6]}')
+        print(f'粉丝数:{data[7]}')
+        print(f'关注数:{data[8]}')
     else:
         break
