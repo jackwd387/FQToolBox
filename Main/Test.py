@@ -1,7 +1,7 @@
 import API
 cookie = open('./Cookie.ini','r',encoding='utf-8').read()
 while True:
-    c = input('FQAPI TEST\n1.查询book_id\n2.查询item_id\n3.查询用户\n4.查询书架\n5.上传阅读进度\n6.添加书架\n7.段评查看\n8.书评查看\n9.查询user_id\n请选择:')
+    c = input('FQAPI TEST\n1.查询book_id\n2.查询item_id\n3.查询用户\n4.查询书架\n5.上传阅读进度\n6.添加书架\n7.段评查看\n8.书评查看\n9.查询user_id\n10.剧url获取\n11.听书url获取\n请选择:')
     if c == '1':
         data = API.book_id_inquire(input('book_id:'))
         for i in range(len(data[0])):
@@ -56,5 +56,9 @@ while True:
         print(f'点赞数:{data[6]}')
         print(f'粉丝数:{data[7]}')
         print(f'关注数:{data[8]}')
+    elif c == '10':
+        print(API.video_get(input('video_id:')))
+    elif c == '11':
+        print(API.reading(input('音色:'),input('item_id:')))
     else:
         break

@@ -12,9 +12,7 @@ def thread(p):
         pass
     else:
         content = item_id_inquire(item_id_list[p])[0]
-        content = re.sub(r"</?p.*?>",'\n',content)
-        content = re.sub(r"</?div.*?>",'',content)
-        content = re.sub(r"</?img.*?>",'',content)
+        content = re.sub(re.compile('<.*?>'),'\n',content.replace('</p><p>','\n'))
         #print(f'文字数:{len(content)}')
         asyncio.run(run_tts(title_list[p]+content,voice,rate_count,volume_count))
 async def run_tts(text: str, voice: str,rate:str,volume:str) -> None:

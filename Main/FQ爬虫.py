@@ -8,9 +8,7 @@ from API import book_id_inquire,item_id_inquire
 def get_content(title,item_id):
         data = item_id_inquire(item_id)
         title = re.sub(r"[\/\\\:\*\?\"\<\>\|]","_",title)#去掉非法字符
-        content = re.sub(r"</?p.*?>",'\n',data[0].replace('</p><p>','\n'))
-        content = re.sub(r"</?div.*?>",'',content)
-        content = re.sub(r"</?img.*?>",'',content)
+        content = re.sub(re.compile('<.*?>'),'\n',data[0].replace('</p><p>','\n'))
         item_content_list[item_id] = title + content
         with open('./output/'+ name +'/'+ title + '.txt', mode='w', encoding='utf-8') as f:
             f.write(title)

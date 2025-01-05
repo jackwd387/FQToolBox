@@ -2,7 +2,7 @@ import os
 import json
 import requests
 from Main.API import user_inquire
-print('欢迎使用FQ Toolbox V1.13')
+print('欢迎使用FQ Toolbox V1.14')
 print('一言:'+json.loads(requests.get(url='https://v1.hitokoto.cn').text)['hitokoto'])
 print('————————————————————')
 if not os.path.exists('cookie.ini'):
@@ -50,11 +50,7 @@ while True:
                     print(f'用户简介:{data[3]}')
                 break
     elif choose == '7':
-        choose = input('1.api测试\n2.番茄听书\n请选择:')
-        if choose == '1':
-            os.system('python ./Main/Test.py')
-        elif choose == '2':
-            os.system('python ./Main/Test2.py')
+        os.system('python ./Main/Test.py')
     else:
         print('unknown')
     

@@ -159,3 +159,14 @@ def user_id_inquire(user_id):
     follow_user_num = data['data']['follow_user_num']
     return user_name,user_avatar,is_author,description,read_book_time,read_book_num,recv_digg_num,fans_num,follow_user_num
     
+def video_get(video_id):
+    url = "https://api5-normal-sinfonlinec.fqnovel.com/novel/player/video_model/v1/?aid=1967"
+    data = {"biz_param":{"device_level":1,"from_video_id":"","need_all_video_definition":True,"need_mp4_align":False,"source":4,"use_os_player":False,"video_id_type":0,"video_platform":3},"video_id":video_id}
+
+    data = json.loads(requests.post(url, data=data).text)
+    return data['data']['main_url'],data['data']['backup_url']
+
+def reading(tone_id,item_ids):
+  url = f"https://reading.snssdk.com/reading/reader/audio/playinfo/?tone_id={tone_id}&item_ids={item_ids}&aid=507386&version_code=999"
+  data = json.loads(requests.get(url=url).text)["data"][0]
+  return data["main_url"],data["backup_url"]
