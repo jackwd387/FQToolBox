@@ -20,24 +20,46 @@ async def run_tts(text: str, voice: str,rate:str,volume:str) -> None:
     communicate =  edge_tts.Communicate(text=text, voice=voice,rate=rate,volume=volume)
     await communicate.save(output_files+item_id_list[p]+'_TEMP.mp3')
 if __name__ == '__main__':
-    user_data = user_bookshelf(cookie)
-    book_id = input('book_id(输入空则使用最近播放书籍):')
-    if book_id == '':
-        book_id = user_data[0][0]
+    if cookie == '':
+        pass
+    else:
+        user_data = user_bookshelf(cookie)
+        history_data = book_id_inquire(user_data[0][0])
+        print(f'最近播放:{history_data[2]}({user_data[0][0]})')
+    while True:
+        book_id = input('book_id(输入空则使用最近播放书籍):')
+        if book_id == '':
+            if cookie == '':
+                print('ERROR:获取最近播放书籍失败 未登录')
+            else:
+                book_id = user_data[0][0]
+                break
+        else:
+            break
     data = book_id_inquire(book_id)
     title_list = data[1]
     item_id_list = data[0]
     name = data[2]
     for r in range(len(title_list)):
         print(f'章节 {r+1} :{title_list[r]}')
-    p = input('选择(输入空则使用最近播放章节):')
+    if cookie == '':
+        pass
+    else:
+        print(f'最近播放:{title_list[item_id_list.index(user_data[1][user_data[0].index(book_id)])]}')
     content = None
     output_files = './TEMP/' + book_id + '_cache/'
-    if p == '':
-        item_id = user_data[1][0]
-        p = item_id_list.index(item_id)
-    else:
-        p = int(p) - 1
+    while True:
+        p = input('选择(输入空则使用最近播放章节):')
+        if p == '':
+            if cookie == '':
+                print('ERROR:获取最近播放章节失败 未登录')
+            else:
+                item_id = user_data[1][user_data[0].index(book_id)]
+                p = item_id_list.index(item_id)
+                break
+        else:
+            p = int(p) - 1
+            break
     os.system('edge-tts  --list-voices')
     voice = input('请选择音色(默认zh-CN-XiaoxiaoNeural):')
     rate_count = input('语速大小(默认+0%):')

@@ -15,6 +15,8 @@ while True:
         print(f'read_count:{data[8]}')
         print(f'word_number:{data[7]}')
         print(f'thumb_url:{data[10]}')
+        if data[11] == True:
+            print('此书无法被分享 可能是被封禁或未发布')
     elif c == '2':
         data = API.item_id_inquire(input('item_id:'))
         print(f'content:{data[0]}')
@@ -56,6 +58,7 @@ while True:
         print(f'点赞数:{data[6]}')
         print(f'粉丝数:{data[7]}')
         print(f'关注数:{data[8]}')
+        print(f'作者书籍:{data[9]}')
     elif c == '10':
         print(API.video_get(input('video_id:')))
     elif c == '11':

@@ -2,7 +2,7 @@ import os
 import json
 import requests
 from Main.API import user_inquire
-print('欢迎使用FQ Toolbox V1.14')
+print('欢迎使用FQ Toolbox V1.15')
 print('一言:'+json.loads(requests.get(url='https://v1.hitokoto.cn').text)['hitokoto'])
 print('————————————————————')
 if not os.path.exists('cookie.ini'):
