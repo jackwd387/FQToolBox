@@ -25,7 +25,7 @@ if __name__ == '__main__':
     name = data[2]
     author = data[3]
     abstract = data[4]
-
+    print(f'书名:{name}')
     book = epub.EpubBook()
     
     # 添加元数据

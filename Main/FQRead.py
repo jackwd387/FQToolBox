@@ -45,7 +45,8 @@ if __name__ == '__main__':
     if cookie == '':
         pass
     else:
-        print(f'最近播放:{title_list[item_id_list.index(user_data[1][user_data[0].index(book_id)])]}')
+        if book_id in user_data[0]:
+            print(f'最近播放:{title_list[item_id_list.index(user_data[1][user_data[0].index(book_id)])]}')
     content = None
     output_files = './TEMP/' + book_id + '_cache/'
     while True:

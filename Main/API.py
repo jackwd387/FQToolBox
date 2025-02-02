@@ -4,7 +4,7 @@ import time
 
 def book_id_inquire(book_id):
     # url = 'https://novel.snssdk.com/api/novel/book/directory/list/v/?book_id= 被和谐
-    url2 = f'https://api5-normal-sinfonlinec.fqnovel.com/reading/user/share/info/v/?group_id={book_id}&aid=1967&version_code=513'
+    url2 = f'https://api5-normal-sinfonlinec.fqnovel.com/reading/user/share/info/v/?group_id={book_id}&aid=1967&version_code=513' #分享接口
     url = f'https://api5-normal-sinfonlineb.fqnovel.com/reading/bookapi/multi-detail/v/?aid=1967&iid=1&version_code=999&book_id={book_id}'
     url1 = 'https://fanqienovel.com/api/reader/directory/detail?bookId='
     # 数据获取
@@ -25,11 +25,12 @@ def book_id_inquire(book_id):
     read_count = json_data['data'][0]['read_count']
     creation_status = json_data['data'][0]['creation_status'] #0:完结 1:连载 4:断更
     thumb_url = json_data['data'][0]['thumb_url']
+    create_time = json_data['data'][0]['create_time']
     if json.loads(requests.get(url=url2).text)['code'] == 100109:
         is_ban = True
     else:
         is_ban = False
-    return item_id_list,title_list,book_name,author,abstract,tags,score,word_number,read_count,creation_status,thumb_url,is_ban
+    return item_id_list,title_list,book_name,author,abstract,tags,score,word_number,read_count,creation_status,thumb_url,is_ban,create_time
 
 def item_id_inquire(item_id):
     # url = 'https://novel.snssdk.com/api/novel/book/directory/detail/v/?item_ids='

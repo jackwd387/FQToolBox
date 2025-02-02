@@ -29,6 +29,7 @@ if __name__ == '__main__':
     name = data[2]
     author = data[3]
     abstract = data[4]
+    print(f'书名:{name}')
     if not os.path.exists('./output/'+name):
         os.makedirs('./output/'+name)
     c = input('1.爬取全文\n2.爬取单章\nNext:')

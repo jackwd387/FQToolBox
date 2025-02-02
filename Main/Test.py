@@ -15,6 +15,7 @@ while True:
         print(f'read_count:{data[8]}')
         print(f'word_number:{data[7]}')
         print(f'thumb_url:{data[10]}')
+        print(f'create_time:{data[12]}')
         if data[11] == True:
             print('此书无法被分享 可能是被封禁或未发布')
     elif c == '2':
